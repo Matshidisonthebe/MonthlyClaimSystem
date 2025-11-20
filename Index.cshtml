@@ -1,0 +1,49 @@
+@model MonthlyClaimSystem.Models.HR
+@{
+    ViewData["Title"] = "HR Dashboard";
+}
+
+<div class="container">
+    <h2 class="mb-4">HR Dashboard</h2>
+
+    <div class="card mb-4 shadow-sm" style="width:100%;">
+        <div class="card-body">
+            <h4 class="card-title">@Model.FullName</h4>
+            <p class="card-text mb-1"><strong>Email:</strong> @Model.Email</p>
+            <p class="card-text mb-1"><strong>Phone:</strong> @Model.Phone</p>
+            <p class="card-text mb-1"><strong>Department:</strong> @Model.Department</p>
+            <p class="card-text mb-1"><strong>Hire date:</strong> @Model.HireDate.ToString("yyyy-MM-dd")</p>
+            @if (!string.IsNullOrEmpty(Model.Notes))
+            {
+                <p class="card-text mt-2"><strong>Notes:</strong><br />@Model.Notes</p>
+            }
+            <div class="mt-3">
+                <a asp-controller="Claim" asp-action="ViewClaims" class="btn btn-primary me-2">View Claims</a>
+                <a asp-controller="Claim" asp-action="VerifyClaims" class="btn btn-outline-secondary me-2">Verify Pending Claims</a>
+
+                <!-- Download full report -->
+                <a asp-controller="Claim" asp-action="DownloadReport" class="btn btn-info text-white">Download Claims Report (PDF)</a>
+            </div>
+
+            <hr />
+
+            <div class="mt-3">
+                <h5>Download Claim Invoice</h5>
+                <form asp-controller="Claim" asp-action="DownloadInvoice" method="get" class="row g-2 align-items-center" style="max-width:420px;">
+                    <div class="col-auto">
+                        <label for="id" class="visually-hidden">Claim ID</label>
+                        <input type="number" class="form-control" id="id" name="id" min="1" placeholder="Claim ID" required />
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-outline-primary">Download Invoice (PDF)</button>
+                    </div>
+                </form>
+                <div class="small text-muted mt-2">Enter a claim id to download a single invoice as PDF.</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-muted small">
+        Use this page to view HR profile information and quickly navigate to claim management pages.
+    </div>
+</div>
